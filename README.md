@@ -104,7 +104,7 @@ List important API endpoints if applicable.
 Example:
 
 | Method | Endpoint       | Description         |
-|--------|--------------|---------------------|
+|--------|----------------|---------------------|
 | GET    | /api/v1/auth/signup   | Signup    |
 | POST   | /api/v1/auth/signin  | Signin  |
 | PUT    | /api/v1/auth/signout | Signout   |
