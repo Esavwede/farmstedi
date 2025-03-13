@@ -13,6 +13,7 @@ import { ServerError } from "../utils/errors/server/500Error"
 /** User Interface */
 export interface IUser extends Document
 {
+    googleId: string,
     firstname: string, 
     lastname: string, 
     email: string, 
@@ -27,37 +28,41 @@ export interface IUser extends Document
 /** User Schema */
 const UserSchema = new Schema<IUser>
 (
+    {
+        googleId: 
         {
-            firstname:
-            {
-                type: String, 
-                required: true
-            },
-            lastname:
-            {
-                type: String, 
-                required: true 
-            },
-            email: 
-            {
-                type: String, 
-                required: true 
-            },
-            password:
-            {
-                type: String, 
-                required: true 
-            },
-            emailVerified:
-            {
-                type: Boolean, 
-                required: true,
-                default: false 
-            }
+            type: String
         },
+        firstname:
         {
-            timestamps: true 
+            type: String, 
+            required: true
+        },
+        lastname:
+        {
+            type: String, 
+            required: true 
+        },
+        email: 
+        {
+            type: String, 
+            required: true 
+        },
+        password:
+        {
+            type: String, 
+            required: true 
+        },
+        emailVerified:
+        {
+            type: Boolean, 
+            required: true,
+            default: false 
         }
+    },
+    {
+        timestamps: true 
+    }
 )
 
 
@@ -87,16 +92,16 @@ UserSchema.pre("save", async function(next){
 
 // Compare Passwords 
 UserSchema.methods.comparePassword = async function( candidatePassword: string): Promise<boolean> {
-        try 
-        {
-            return await bcrypt.compare( candidatePassword, this.password ) 
-        }
-        catch(e: any)
-        {
-            console.log("Password Compare Error")
-            console.log(e) 
-            throw new ServerError("Server Error")
-        }
+    try 
+    {
+        return await bcrypt.compare( candidatePassword, this.password ) 
+    }
+    catch(e: any)
+    {
+        console.log("Password Compare Error")
+        console.log(e) 
+        throw new ServerError("Server Error")
+    }
 }
 
 
