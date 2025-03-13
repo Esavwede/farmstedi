@@ -37,9 +37,45 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
-        done(error, null);
+        return done(error, false);
       }
     }
   )
 );
 
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      callbackURL: process.env.FACEBOOK_CALLBACK_URL!,
+      profileFields: ["id", "displayName", "email"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const fullName = profile.displayName || "";
+        const [firstname, lastname] = fullName.split(" ");
+        const email = profile.emails?.[0]?.value || "";
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+          user = new User({
+            googleId: profile.id,
+            firstname,
+            lastname,
+            email,
+            passport: "",
+            emailVerified: true
+          })
+
+          await user.save()
+        }
+
+        return done(null, user)
+      } catch (error) {
+        return done(error, false);
+      }
+    }
+  )
+);
