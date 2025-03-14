@@ -14,6 +14,7 @@ import { ServerError } from "../utils/errors/server/500Error"
 export interface IUser extends Document
 {
     googleId: string,
+    facebookId: string,
     firstname: string, 
     lastname: string, 
     email: string, 
@@ -31,7 +32,15 @@ const UserSchema = new Schema<IUser>
     {
         googleId: 
         {
-            type: String
+            type: String,
+            unique: true,
+            sparse: true
+        },
+        facebookId: 
+        {
+            type: String,
+            unique: true,
+            sparse: true
         },
         firstname:
         {
@@ -46,6 +55,7 @@ const UserSchema = new Schema<IUser>
         email: 
         {
             type: String, 
+            unique: true,
             required: true 
         },
         password:

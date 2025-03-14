@@ -20,6 +20,8 @@ passport.use(
         const lastname = profile.name?.familyName || "";
         const email = profile.emails?.[0]?.value || "";
 
+        const avatar = profile.photos?.[0]?.value;
+
         let user = await User.findOne({ email });
 
         if (!user) {
@@ -57,25 +59,39 @@ passport.use(
         const [firstname, lastname] = fullName.split(" ");
         const email = profile.emails?.[0]?.value || "";
 
+        const avatar = profile.photos?.[0]?.value;
+
         let user = await User.findOne({ email });
 
         if (!user) {
           user = new User({
-            googleId: profile.id,
+            facebookId: profile.id,
             firstname,
             lastname,
             email,
             passport: "",
-            emailVerified: true
-          })
+            emailVerified: true,
+          });
 
-          await user.save()
+          await user.save();
         }
 
-        return done(null, user)
+        return done(null, user);
       } catch (error) {
         return done(error, false);
       }
     }
   )
 );
+
+passport.serializeUser((user: any, done) => done(null, user.id));
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user); 
+  } catch (error) {
+    done(error, null);
+  }
+});
+
+export default passport;
