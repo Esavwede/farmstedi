@@ -6,8 +6,8 @@ import { GoogleGeminiClient } from "../../../genAI/models/gemini/gemini"
 import { FarmDataInput } from "../types/farm-data";
 import { extractJsonFromString } from "../../utils/strings/extract-json-from-string" 
 
-config()
 
+config()
 
 export class PlantRecommendationService
 {
@@ -44,8 +44,6 @@ export class PlantRecommendationService
             const plantRecommendations:any = await this.generatePlantRecommendations( plantData ) 
 
 
-          
-
             var res = extractJsonFromString( plantRecommendations)
             res = JSON.parse( res )
 
@@ -64,7 +62,6 @@ export class PlantRecommendationService
     {
         try 
         {
-
             
             const CROP_RECOMMENDATION_PROMPT: string = `
 
@@ -126,7 +123,6 @@ export class PlantRecommendationService
             console.log("Error occured while analyzing plant data")
             console.log(e) 
         }
-    }
-    
+    }    
 
 }

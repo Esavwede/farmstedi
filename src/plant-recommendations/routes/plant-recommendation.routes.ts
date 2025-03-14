@@ -5,6 +5,7 @@ import { Router } from "express"
 
 import PlantRecommendationController from "../controllers/plant-recommendation.controller"
 
+
 import { farmDataSchema } from "../schemas/plant-recommendation.schema"
 import validateRequestSchema from "../../middleware/validation/reqSchema/validate"
 
