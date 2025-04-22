@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc --build",
-    "start": "nodemon -L ./dist/bin/server.js",
+    "start": "node ./dist/src/bin/server.js",
     "dev": "nodemon ./src/bin/server.ts",
     "test": "test"
   },
@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/Esavwede/Farmstedi#readme",
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/body-parser": "^1.19.5",
     "@types/config": "^3.3.5",
@@ -53,13 +52,13 @@
     "@types/express-rate-limit": "^6.0.2",
     "@types/helmet": "^4.0.0",
     "axios": "^1.7.9",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "config": "^3.3.12",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
     "express-session": "^1.18.1",

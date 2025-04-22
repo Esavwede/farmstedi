@@ -1,15 +1,18 @@
-version: '3.8'
+version: "3.8"
 services:
   farmstedi:
-    image: t2
+    build: .
+    container_name: farmstedi
     ports:
       - "3000:3000"
     volumes:
       - C:\Users\OGAGAOGHENE\Documents\Professional\Farmstedi:/app
+    env_file:
+      - .env
     depends_on:
       - redis
     environment:
-      - REDIS_HOST=redis  # Use the service name as the host
+      - REDIS_HOST=redis # Use the service name as the host
 
   redis:
     image: redis:alpine

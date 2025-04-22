@@ -6,7 +6,7 @@ function AppErrorHandler(err, req, res) {
     const errorCode = e.statusCode;
     switch (errorCode) {
         case 400:
-            console.log('loggerrrr');
+            console.log("loggerrrr");
             res.status(400).json({ success: false, msg: e.message });
             break;
         case 401:

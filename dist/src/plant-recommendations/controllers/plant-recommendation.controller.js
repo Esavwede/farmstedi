@@ -20,7 +20,7 @@ class PlantRecommendationController {
                 res.setTimeout(100000);
                 const farmData = req.body;
                 const plantRecommendations = yield this.plantRecommendationService.recommendPlant(farmData);
-                res.send(plantRecommendations);
+                res.status(200).json({ status: "success", data: [plantRecommendations] });
                 return;
             }
             catch (e) {

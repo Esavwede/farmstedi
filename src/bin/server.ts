@@ -1,17 +1,15 @@
-
-
 /**
  * Module dependencies.
  */
-import app from "../app" 
-import http from 'http';
+import app from "../app";
+import http from "http";
 import startDatabase from "../system/database/database";
 
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
 
 /**
  * Create HTTP server.
@@ -21,14 +19,14 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+server.listen(port, "0.0.0.0");
+server.on("error", onError);
+server.on("listening", onListening);
 
 /**
  * Normalize a port into a number, string, or false.
  */
-function normalizePort(val: any ) {
+function normalizePort(val: any) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -48,21 +46,19 @@ function normalizePort(val: any ) {
  * Event listener for HTTP server "error" event.
  */
 function onError(error: any) {
-  if (error.syscall !== 'listen') {
+  if (error.syscall !== "listen") {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
+    case "EACCES":
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
-    case 'EADDRINUSE':
+    case "EADDRINUSE":
       console.error(`${bind} is already in use`);
       process.exit(1);
       break;
@@ -76,13 +72,11 @@ function onError(error: any) {
  */
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr?.port}`;
+  const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr?.port}`;
 
-    console.log(`server listening on PORT: ${ port }`)
+  console.log(`server listening on PORT: ${port}`);
 
-    // Start database 
+  // Start database
 
-    startDatabase() 
+  startDatabase();
 }

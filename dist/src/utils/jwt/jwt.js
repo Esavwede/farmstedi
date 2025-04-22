@@ -10,7 +10,9 @@ const dotenv_1 = require("dotenv");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 function generateAccessToken(data) {
     try {
-        return jsonwebtoken_1.default.sign(data, process.env.JWT_ACCESS_TOKEN_SECRET || "default", { expiresIn: process.env.JWT_ACCESS_TOKEN_EXP });
+        return jsonwebtoken_1.default.sign(data, process.env.JWT_ACCESS_TOKEN_SECRET || "default", {
+            expiresIn: "1h",
+        });
     }
     catch (e) {
         console.log("Create Access Token Error");
@@ -20,7 +22,9 @@ function generateAccessToken(data) {
 }
 function generateRefreshToken(data) {
     try {
-        return jsonwebtoken_1.default.sign(data, process.env.JWT_REFRESH_TOKEN_SECRET || "default", { expiresIn: process.env.JWT_REFRESH_TOKEN_EXP });
+        return jsonwebtoken_1.default.sign(data, process.env.JWT_REFRESH_TOKEN_SECRET || "default", {
+            expiresIn: "1d",
+        });
     }
     catch (e) {
         console.log("Create Refresh Token Error");

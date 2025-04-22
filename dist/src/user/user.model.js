@@ -46,36 +46,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Database 
+// Database
 const mongoose_1 = __importStar(require("mongoose"));
-// Hashing 
+// Hashing
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const _500Error_1 = require("../utils/errors/server/500Error");
 /** User Schema */
 const UserSchema = new mongoose_1.Schema({
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true,
+    },
+    facebookId: {
+        type: String,
+        unique: true,
+        sparse: true,
+    },
     firstname: {
         type: String,
-        required: true
+        required: true,
     },
     lastname: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
-        required: true
+        unique: true,
+        required: true,
     },
     password: {
         type: String,
-        required: true
     },
     emailVerified: {
         type: Boolean,
         required: true,
-        default: false
-    }
+        default: false,
+    },
 }, {
-    timestamps: true
+    timestamps: true,
 });
 /** Presave Methods */
 // Saving New Password
@@ -96,7 +106,7 @@ UserSchema.pre("save", function (next) {
     });
 });
 /** UserSchema Methods */
-// Compare Passwords 
+// Compare Passwords
 UserSchema.methods.comparePassword = function (candidatePassword) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import bodyParser from "body-parser";
 import routes from "./routes";
 import AppErrorHandler from "./middleware/errors/errorHandler";
 import session from "express-session";
@@ -45,7 +44,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(bodyParser.json()); // For parsing JSON request bodies
 app.use(express.static(path.join(path.resolve(), "public")));
 app.use(
   session({
@@ -62,12 +60,12 @@ app.use(passport.session());
 // ROUTES
 routes(app);
 
-// App Error Handler
-app.use(AppErrorHandler);
-
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   res.status(400).json({ success: false, msg: "Route Not Found" });
 });
+
+// App Error Handler
+app.use(AppErrorHandler);
 
 export default app;

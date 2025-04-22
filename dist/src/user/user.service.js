@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Config 
+// Config
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-// Error Modules 
+// Error Modules
 const _400Error_1 = require("../utils/errors/server/400Error");
 const _401Error_1 = require("../utils/errors/server/401Error");
-// Tokens 
+// Tokens
 const cacheTokens_1 = __importDefault(require("../utils/cache/cacheTokens"));
 const jwt_1 = require("../utils/jwt/jwt");
 class UserService {
@@ -55,20 +55,20 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield this.userRepo.find(email);
-                // Return 401 error if user not found 
+                // Return 401 error if user not found
                 if (!user)
                     throw new _401Error_1.UnauthorizedError("check signin details");
-                // Validate User Password 
+                // Validate User Password
                 const passwordValid = yield user.comparePassword(password);
                 if (!passwordValid)
                     throw new _401Error_1.UnauthorizedError("check signing details");
-                // Extract User Data 
+                // Extract User Data
                 const { _id, firstname, lastname } = user;
                 const userData = { _id, firstname, lastname };
-                // Generate User Tokens 
+                // Generate User Tokens
                 const accessToken = (0, jwt_1.generateAccessToken)(userData);
                 const refreshToken = (0, jwt_1.generateRefreshToken)(userData);
-                // Store User Tokens in Cache 
+                // Store User Tokens in Cache
                 yield cacheTokens_1.default.cacheAccessToken(_id, accessToken);
                 yield cacheTokens_1.default.cacheRefreshToken(_id, refreshToken);
                 return { userData, tokens: { accessToken, refreshToken } };

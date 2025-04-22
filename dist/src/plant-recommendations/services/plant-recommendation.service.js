@@ -23,18 +23,26 @@ class PlantRecommendationService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { longitude, latitude, area, plants, soilType } = farmData;
-                // Fetch Historical Weather Data 
+                // Fetch Historical Weather Data
                 const historicWeatherData = yield (0, weather_service_1.fetchHistoricalWeatherData)(longitude, latitude);
-                // Ensure Data Valid 
+                // Ensure Data Valid
                 if (!historicWeatherData) {
                     return;
                 }
-                // Predict Future Temperature 
+                // Predict Future Temperature
                 const { predictedTemperature, predictedPrecipitation } = (0, weather_service_1.predictFutureWeather)(historicWeatherData);
-                // Display Predicted Temperature 
+                // Display Predicted Temperature
                 console.log(`The predicted temperature for Long:${longitude} and Lat:${latitude} is: ${predictedTemperature} *C`);
                 console.log(`The predicted precipitation for Long:${longitude} and Lat:${latitude} is: ${predictedPrecipitation} *C`);
-                const plantData = { latitude, longitude, averageTemperature: predictedTemperature, totalPrecipitation: predictedPrecipitation, plants, soilType, numberOfMonths: 3 };
+                const plantData = {
+                    latitude,
+                    longitude,
+                    averageTemperature: predictedTemperature,
+                    totalPrecipitation: predictedPrecipitation,
+                    plants,
+                    soilType,
+                    numberOfMonths: 3,
+                };
                 // Generate AI Recommendations Based on {User Provided Data} and {Temperature & Precipitation  Data}
                 const plantRecommendations = yield this.generatePlantRecommendations(plantData);
                 var res = (0, extract_json_from_string_1.extractJsonFromString)(plantRecommendations);
@@ -44,7 +52,7 @@ class PlantRecommendationService {
             catch (e) {
                 console.log("Service: Could Not Recommend Crop to plant");
                 console.log(e);
-                throw (e);
+                throw e;
             }
         });
     }
@@ -65,25 +73,15 @@ class PlantRecommendationService {
 
             You will then analyze the the given data and return a summary, structured as a json response in the form 
             {
-            "climate": {
-                "avgTemperature": "summary of average temperature suitability",
-                "totalPrecipitation": "summary of the total precipitation suitability"
-            },
-            "soil": {
-                "type": "summary of you suggestion for the soil type",
-                "phValue": "summary of the ideal pH range for the plant"
-            },
-            "irrigation": {
-                "technique": " ideal irrigation method summary",
-                "waterQuality": "ideal type of water for the plants based on its constituent",
-                "irrigationSchedule": "ideal irrigation schedule for plant"
-            },
-            "pestAndDiseases": {
-                "commonPests": "common pests that affects plant",
-                "commonPestsMitigation": "mitigation summary",
-                "commonDiseases": " common diseases affecting plant",
-                "commonDiseasesMitigation": "mitigation summary"
-            }
+            "plantName":"name of plant provide",
+            "suitabilityScore": "score between 0 and 100 based on the suitability of the plant for the given data",
+            "growthPeriod": "summary of the growth period of the plant",
+            "averageTemperature": "summary of average temperature suitability",
+            "totalPrecipitation": "summary of the total precipitation suitability",
+            "soilType": "summary of the soil type suitability",
+            "phValue": "summary of the ideal pH range for the plant",
+            "irriagation": "summary of the ideal irrigation method, ideal type of water for the plants based on its constituent, ideal irrigation schedule for plant"
+            "pestAndDiseases": "common pests that affects plant, mitigation summary, common diseases affecting plant, mitigation summary"
             }
 
 
