@@ -13,6 +13,7 @@ export default function AppErrorHandler(
   const errorCode = e.statusCode;
 
   console.log("determining error");
+  console.error(e);
 
   switch (errorCode) {
     case 400:
