@@ -17,28 +17,28 @@ const app = express();
 // Security
 app.use(helmet());
 
-app.use(
-  cors({
-    origin: ["localhost:3000"],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Authorization", "Content-Type"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["localhost:3000"],
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ["Authorization", "Content-Type"],
+//   })
+// );
 
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    handler: (req: Request, res: Response, next: NextFunction, options) => {
-      res.status(429).json({
-        success: false,
-        msg: ` too many requests wait for ${Math.round(
-          options.windowMs / 1000
-        )} seconds to continue `,
-      });
-    },
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 100,
+//     handler: (req: Request, res: Response, next: NextFunction, options) => {
+//       res.status(429).json({
+//         success: false,
+//         msg: ` too many requests wait for ${Math.round(
+//           options.windowMs / 1000
+//         )} seconds to continue `,
+//       });
+//     },
+//   })
+// );
 
 app.use(logger("dev"));
 app.use(express.json());

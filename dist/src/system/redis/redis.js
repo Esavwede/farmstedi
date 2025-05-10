@@ -7,10 +7,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const ioredis_1 = __importDefault(require("ioredis"));
+const REDIS_USERNAME = process.env.REDIS_USERNAME || "localhost";
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD || "*******";
 const REDIS_HOST = process.env.REDIS_HOST || "localhost";
 const REDIS_PORT = parseInt(process.env.REDIS_PORT) || 6379;
 var attempt = 0;
 const redisClient = new ioredis_1.default({
+    username: REDIS_USERNAME,
+    password: REDIS_PASSWORD,
     host: REDIS_HOST,
     port: REDIS_PORT,
 });

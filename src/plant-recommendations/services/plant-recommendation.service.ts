@@ -18,8 +18,11 @@ export class PlantRecommendationService {
 
   async recommendPlant(farmData: FarmDataInput) {
     try {
-      const { longitude, latitude, area, plants, soilType } = farmData;
+      let { longitude, latitude, area, plants, soilType } = farmData;
 
+      if (plants.length == 0) {
+        plants = ["plantain"];
+      }
       // Fetch Historical Weather Data
       const historicWeatherData = await fetchHistoricalWeatherData(
         longitude,

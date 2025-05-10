@@ -1,14 +1,18 @@
 import { Request, Response } from "express";
 import { AnyAppError } from "./anyAppError";
+import { NextFunction } from "express-serve-static-core";
 
 export default function AppErrorHandler(
   err: Error,
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) {
   const e = err as any as AnyAppError;
 
   const errorCode = e.statusCode;
+
+  console.log("determining error");
 
   switch (errorCode) {
     case 400:

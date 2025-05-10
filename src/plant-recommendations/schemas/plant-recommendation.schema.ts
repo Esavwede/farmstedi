@@ -1,43 +1,39 @@
-import { number, z } from "zod";
+import { z } from "zod";
 
 export const farmDataSchema = z.object({
   body: z.object({
     longitude: z
       .number({
-        required_error: "longitude not provided",
-        invalid_type_error: "longitude must be a float",
+        required_error: "Longitude is required",
+        invalid_type_error: "Longitude must be a number",
       })
-      .describe("longitude"),
-    latitude: z.number({
-      required_error: "latitude not provided",
-      invalid_type_error: "latitude must be a float",
-    }),
-    plants: z.array(z.string(), {
-      required_error: "plants must be an array of strings",
-      invalid_type_error: "plants must be an array of strings",
-    }),
+      .min(-180)
+      .max(180),
+    latitude: z
+      .number({
+        required_error: "Latitude is required",
+        invalid_type_error: "Latitude must be a number",
+      })
+      .min(-90)
+      .max(90),
     area: z
       .number({
-        invalid_type_error: "area must be a number",
+        required_error: "Area is required",
+        invalid_type_error: "Area must be a number",
       })
+      .min(0)
       .optional(),
-    soilType: z.string({
-      required_error: "soilType Must be provided",
-      invalid_type_error: "soilType must be of type String",
-    }),
-    numberOfMonths: z
-      .number({
-        invalid_type_error: "numberOfMonths must be a number",
-      })
-      .optional(),
-    averageTemperature: z
-      .number({
-        invalid_type_error: "averageTemperature must be a number",
-      })
-      .optional(),
-    totalPrecipitation: z.number({}).optional(),
-    plantingDate: z.string(),
+    plants: z.array(z.string()).default(["plantain"]),
+    soilType: z.enum([
+      "sandy",
+      "clay",
+      "loamy",
+      "silty",
+      "peaty",
+      "saline",
+      "chalky",
+    ]),
+    plantingDate: z.string().optional(),
   }),
 });
-
 export type FarmDataInput = z.infer<typeof farmDataSchema>;

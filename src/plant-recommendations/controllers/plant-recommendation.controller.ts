@@ -16,6 +16,7 @@ export default class PlantRecommendationController {
     next: NextFunction
   ) {
     try {
+      throw new Error("Not Implemented");
       res.setTimeout(100000);
       const farmData = req.body;
       const plantRecommendations =
@@ -24,6 +25,7 @@ export default class PlantRecommendationController {
       res.status(200).json({ status: "success", data: [plantRecommendations] });
       return;
     } catch (e: any) {
+      console.log("--debug: error caught");
       next(e);
     }
   }

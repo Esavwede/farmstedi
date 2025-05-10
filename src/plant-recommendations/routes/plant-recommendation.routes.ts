@@ -1,33 +1,28 @@
+import { Express } from "express";
+import { Router } from "express";
 
-import { Express } from "express"
-import { Router } from "express"
+import PlantRecommendationController from "../controllers/plant-recommendation.controller";
 
+import { farmDataSchema } from "../schemas/plant-recommendation.schema";
+import validateRequestSchema from "../../middleware/validation/reqSchema/validate";
 
-import PlantRecommendationController from "../controllers/plant-recommendation.controller"
+const router = Router();
 
-import { farmDataSchema } from "../schemas/plant-recommendation.schema"
-import validateRequestSchema from "../../middleware/validation/reqSchema/validate"
+export default function plantRecommendationRoutes(app: Express) {
+  try {
+    const plantRecommendationController = new PlantRecommendationController();
 
-const router = Router() 
+    router.post(
+      "/recommend",
+      validateRequestSchema(farmDataSchema),
+      plantRecommendationController.recommendCrops.bind(
+        plantRecommendationController
+      )
+    );
 
-export default function plantRecommendationRoutes( app: Express )
-{
-    try 
-    {
-        const plantRecommendationController = new PlantRecommendationController() 
-
-        router.post
-        (
-            "/recommend",
-            validateRequestSchema( farmDataSchema),
-            plantRecommendationController.recommendCrops.bind( plantRecommendationController )
-        )
-
-        app.use('/api/v1/plant', router )
-    }
-    catch(e: any)
-    {
-        console.log("Error Occured While Creating Plant Recommendation Routes") 
-        console.log(e) 
-    }
+    app.use("/api/v1/plant", router);
+  } catch (e: any) {
+    console.log("Error Occured While Creating Plant Recommendation Routes");
+    console.log(e);
+  }
 }
