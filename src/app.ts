@@ -16,6 +16,7 @@ const app = express();
 
 // Security
 app.use(helmet());
+app.use(cors());
 
 // app.use(
 //   cors({
