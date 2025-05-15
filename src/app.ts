@@ -1,7 +1,8 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import compression from "compression";
 import routes from "./routes";
 import AppErrorHandler from "./middleware/errors/errorHandler";
 import session from "express-session";
@@ -9,8 +10,8 @@ import passport from "./config/passport";
 
 // Security
 import helmet from "helmet";
-import rateLimit from "express-rate-limit";
 import cors from "cors";
+import { swaggerInit } from "./docs/init/swagger";
 
 const app = express();
 
@@ -18,28 +19,11 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
-// app.use(
-//   cors({
-//     origin: ["localhost:3000"],
-//     methods: ["GET", "POST"],
-//     allowedHeaders: ["Authorization", "Content-Type"],
-//   })
-// );
+// optimization
+app.use(compression());
 
-// app.use(
-//   rateLimit({
-//     windowMs: 15 * 60 * 1000,
-//     max: 100,
-//     handler: (req: Request, res: Response, next: NextFunction, options) => {
-//       res.status(429).json({
-//         success: false,
-//         msg: ` too many requests wait for ${Math.round(
-//           options.windowMs / 1000
-//         )} seconds to continue `,
-//       });
-//     },
-//   })
-// );
+// docs
+swaggerInit(app);
 
 app.use(logger("dev"));
 app.use(express.json());

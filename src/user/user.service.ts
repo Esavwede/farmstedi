@@ -15,6 +15,7 @@ import UserRepo from "./user.repo";
 // Tokens
 import TokenService from "../utils/cache/cacheTokens";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt/jwt";
+import { EntityAlreadyExistsRequestError } from "../utils/errors/server/409Error";
 
 export default class UserService {
   constructor(private userRepo: UserRepo) {}
@@ -23,7 +24,8 @@ export default class UserService {
     try {
       const userExists = await this.checkUserExistsWithEmail(user.email);
 
-      if (userExists) throw new BadRequestError("email registered already");
+      if (userExists)
+        throw new EntityAlreadyExistsRequestError("email registered already");
 
       await this.userRepo.create(user);
     } catch (e: any) {
